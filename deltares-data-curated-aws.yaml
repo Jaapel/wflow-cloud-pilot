@@ -1,0 +1,385 @@
+---
+meta:
+  root: s3://hydromt-data  # change root mount
+  version: 2023.3
+
+merit_hydro:
+  alias: merit_hydro_v1.0
+merit_hydro_v1.0:
+  crs: 4326
+  data_type: RasterDataset
+  driver: raster
+  kwargs:
+    chunks:
+      x: 6000
+      y: 6000
+  meta:
+    category: topography
+    paper_doi: 10.1029/2019WR024873
+    paper_ref: Yamazaki et al. (2019)
+    source_license: CC-BY-NC 4.0 or ODbL 1.0
+    source_url: http://hydro.iis.u-tokyo.ac.jp/~yamadai/MERIT_Hydro
+    source_version: 1.0
+  path: topography/merit_hydro/*.vrt
+  rename:
+    bas: basins
+    dir: flwdir
+    elv: elevtn
+    slp: lndslp
+    sto: strord
+    upa: uparea
+    upg: upgrid
+    wth: rivwth
+
+merit_hydro_index:
+  alias: merit_hydro_index_v1.0
+merit_hydro_index_v1.0:
+  crs: 4326
+  data_type: GeoDataFrame
+  driver: vector
+  meta:
+    category: topography
+    paper_doi: 10.5194/hess-25-5287-2021
+    paper_ref: Eilander et al. (2021)
+    source_license: CC-BY-NC 4.0
+  path: topography/merit_hydro/basin_index.fgb
+
+merit_hydro_ihu:
+  alias: merit_hydro_ihu_30sec_v1.0
+merit_hydro_ihu_30sec_v1.0:
+  crs: 4326
+  data_type: RasterDataset
+  driver: raster
+  kwargs:
+    chunks:
+      x: 6000
+      y: 6000
+  meta:
+    category: topography
+    paper_doi: 10.5194/hess-2020-582
+    paper_ref: Eilander et al. (2021)
+    source_license: ODC-By 1.0
+    source_url: https://zenodo.org/record/5166932#.YVbxJ5pByUk
+    source_doi: 10.5281/zenodo.5166932
+    source_version: 1.0
+  path: topography/merit_hydro_ihu/30sec/*.tif
+  rename:
+    30sec_basids: basins
+    30sec_flwdir: flwdir
+    30sec_elevtn: elevtn
+    30sec_strord: strord
+    30sec_uparea: uparea
+    30sec_rivlen: rivlen
+    30sec_rivslp: rivslp
+
+merit_hydro_ihu_index:
+  crs: 4326
+  data_type: GeoDataFrame
+  driver: vector
+  meta:
+    category: topography
+    paper_doi: 10.5194/hess-25-5287-2021
+    paper_ref: Eilander et al. (2021)
+    source_license: CC-BY-NC 4.0
+    source_url: https://zenodo.org/record/5166932#.YVbxJ5pByUk
+  path: topography/merit_hydro_ihu/30sec/basins.gpkg
+
+rivers_lin2019_v1:
+  data_type: GeoDataFrame
+  driver: vector
+  meta:
+    category: hydrography
+    paper_doi: 10.5281/zenodo.3552776
+    paper_ref: Lin et al. (2019)
+    source_license: CC-BY-NC 4.0
+    source_url: https://zenodo.org/record/3552776#.YVbOrppByUk
+    source_version: 1
+  path: hydrography/rivers_lin2019/rivers_ge30m.fgb
+  rename:
+    width_m: rivwth
+    Q2: qbankfull
+
+hydro_reservoirs:
+  crs: 4326
+  data_type: GeoDataFrame
+  driver: vector
+  meta:
+    category: surface water
+    notes: GRanD.v1.1_HydroLAKES.v10_JRC.2016
+    source_author: Alessia Matano
+    source_version: 1.0
+  nodata: -99
+  path: hydrography/reservoirs/reservoir-db.fgb
+  rename:
+    Depth_avg: Depth_avg
+    Dis_avg: Dis_avg
+    G_CAP_MAX: Capacity_max
+    G_CAP_MIN: Capacity_min
+    G_CAP_REP: Capacity_norm
+    G_DAM_HGT_: Dam_height
+    Grand_id: waterbody_id
+    Hylak_id: Hylak_id
+    Lake_area: Area_avg
+    Pour_lat: yout
+    Pour_long: xout
+    Vol_total: Vol_avg
+  unit_mult:
+    Area_avg: 1000000.0
+    Capacity_max: 1000000.0
+    Capacity_min: 1000000.0
+    Capacity_norm: 1000000.0
+    Vol_avg: 1000000.0
+
+hydro_lakes:
+  crs: 4326
+  data_type: GeoDataFrame
+  driver: vector
+  meta:
+    category: surface water
+    notes: HydroLAKES.v10_extract
+    source_author: Arjen Haag
+    source_version: 1.0
+  path: hydrography/lakes/lake-db.fgb
+  rename:
+    Depth_avg: Depth_avg
+    Dis_avg: Dis_avg
+    Hylak_id: waterbody_id
+    Lake_area: Area_avg
+    Pour_lat: yout
+    Pour_long: xout
+    Vol_total: Vol_avg
+  unit_mult:
+    Area_avg: 1000000.0
+
+rgi:
+  alias: rgi_v0.6
+rgi_v0.6:
+  crs: 4326
+  data_type: GeoDataFrame
+  driver: vector
+  meta:
+    category: surface water
+    notes: Randolph Glacier Inventory
+    paper_doi: 10.3189/2014JoG13J176
+    paper_ref: Pfeffer et al. (2014)
+    source_license: CC BY 4.0
+    source_url: https://cds.climate.copernicus.eu/cdsapp#!/dataset/insitu-glaciers-extent?tab=overview
+    source_version: 6.0
+  path: hydrography/rgi/rgi.fgb
+  rename:
+    C3S_ID: C3S_id
+    GLIMSID: GLIMS_id
+    ID: simple_id
+    RGIID: RGI_id
+
+vito:
+  alias: vito_2015_v2.0.2
+vito_2015_v2.0.2:
+  crs: 4326
+  data_type: RasterDataset
+  driver: raster
+  kwargs:
+    chunks:
+      x: 3600
+      y: 3600
+  meta:
+    category: landuse
+    paper_doi: 10.5281/zenodo.3939038
+    paper_ref: Buchhorn et al (2020)
+    source_url: https://land.copernicus.eu/global/products/lc
+    source_version: v2.0.2
+  path: landuse/vito/ProbaV_LC100_epoch2015_global_v2.0.2_discrete-classification_EPSG-4326.tif
+
+modis_lai:
+  alias: modis_mcd15a3h_v006
+modis_mcd15a3h_v006:
+  crs: 4326
+  data_type: RasterDataset
+  driver: raster
+  kwargs:
+    chunks:
+      x: 3600
+      y: 3600
+    concat: true
+  meta:
+    category: landuse
+    notes: this dataset has been extracted from GEE ('MODIS/006/MCD15A3H') for the period '2003-01-01', '2017-12-31'
+    paper_doi: 10.5067/MODIS/MCD15A3H.006
+    paper_ref: Myneni et al (2015)
+    source_license: https://lpdaac.usgs.gov/data/data-citation-and-policies/
+    source_url: https://lpdaac.usgs.gov/products/mcd15a3hv006/
+    source_version: MCD15A3H V006
+  path: landuse/modis/MODIS_MCD15A3H_LAI/*.tif
+  unit_mult:
+    LAI: 0.1
+
+soilgrids:
+  alias: soilgrids_v1.0
+soilgrids_v1.0:
+  crs: 4326
+  data_type: RasterDataset
+  driver: raster
+  kwargs:
+    chunks:
+      x: 2400
+      y: 2400
+  meta:
+    category: soil
+    notes: "soilthickness is based on 1) soilgrids (global) and 2) dataset for Eurasia (ESDAC, 2004; Panagos et al., 2012): ESDAC, 2004. The european soil
+      database distribution version 2.0, european commission and the European soil bureau\n network.  esdac.jrc.ec.europa.eu, accessed: 2017-11-17.  Panagos,
+      P., Van Liedekerke, M., Jones, A., Montanarella, L., 2012. European soil data centre: Response to european policy support  and public data requirements.
+      Land Use Policy 29 (2), 329â€“338. \n"
+    paper_doi: 10.1371/journal.pone.0169748
+    paper_ref: Hengl et al. (2017)
+    source_license: ODbL
+    source_url: https://www.isric.org/explore/soilgrids/faq-soilgrids-2017
+    source_version: 2017
+  path: soil/soilgrids_v1.0/*_250m_ll.tif
+  rename:
+    BLDFIE_M_sl1_250m_ll: bd_sl1
+    BLDFIE_M_sl2_250m_ll: bd_sl2
+    BLDFIE_M_sl3_250m_ll: bd_sl3
+    BLDFIE_M_sl4_250m_ll: bd_sl4
+    BLDFIE_M_sl5_250m_ll: bd_sl5
+    BLDFIE_M_sl6_250m_ll: bd_sl6
+    BLDFIE_M_sl7_250m_ll: bd_sl7
+    CLYPPT_M_sl1_250m_ll: clyppt_sl1
+    CLYPPT_M_sl2_250m_ll: clyppt_sl2
+    CLYPPT_M_sl3_250m_ll: clyppt_sl3
+    CLYPPT_M_sl4_250m_ll: clyppt_sl4
+    CLYPPT_M_sl5_250m_ll: clyppt_sl5
+    CLYPPT_M_sl6_250m_ll: clyppt_sl6
+    CLYPPT_M_sl7_250m_ll: clyppt_sl7
+    ORCDRC_M_sl1_250m_ll: oc_sl1
+    ORCDRC_M_sl2_250m_ll: oc_sl2
+    ORCDRC_M_sl3_250m_ll: oc_sl3
+    ORCDRC_M_sl4_250m_ll: oc_sl4
+    ORCDRC_M_sl5_250m_ll: oc_sl5
+    ORCDRC_M_sl6_250m_ll: oc_sl6
+    ORCDRC_M_sl7_250m_ll: oc_sl7
+    PHIHOX_M_sl1_250m_ll: ph_sl1
+    PHIHOX_M_sl2_250m_ll: ph_sl2
+    PHIHOX_M_sl3_250m_ll: ph_sl3
+    PHIHOX_M_sl4_250m_ll: ph_sl4
+    PHIHOX_M_sl5_250m_ll: ph_sl5
+    PHIHOX_M_sl6_250m_ll: ph_sl6
+    PHIHOX_M_sl7_250m_ll: ph_sl7
+    SLTPPT_M_sl1_250m_ll: sltppt_sl1
+    SLTPPT_M_sl2_250m_ll: sltppt_sl2
+    SLTPPT_M_sl3_250m_ll: sltppt_sl3
+    SLTPPT_M_sl4_250m_ll: sltppt_sl4
+    SLTPPT_M_sl5_250m_ll: sltppt_sl5
+    SLTPPT_M_sl6_250m_ll: sltppt_sl6
+    SLTPPT_M_sl7_250m_ll: sltppt_sl7
+    SNDPPT_M_sl1_250m_ll: sndppt_sl1
+    SNDPPT_M_sl2_250m_ll: sndppt_sl2
+    SNDPPT_M_sl3_250m_ll: sndppt_sl3
+    SNDPPT_M_sl4_250m_ll: sndppt_sl4
+    SNDPPT_M_sl5_250m_ll: sndppt_sl5
+    SNDPPT_M_sl6_250m_ll: sndppt_sl6
+    SNDPPT_M_sl7_250m_ll: sndppt_sl7
+    SoilThickness_250m_ll: soilthickness
+    TAXOUSDA_250m_ll: tax_usda
+  unit_mult:
+    bd_sl1: 0.001
+    bd_sl2: 0.001
+    bd_sl3: 0.001
+    bd_sl4: 0.001
+    bd_sl5: 0.001
+    bd_sl6: 0.001
+    bd_sl7: 0.001
+    oc_sl1: 0.1
+    oc_sl2: 0.1
+    oc_sl3: 0.1
+    oc_sl4: 0.1
+    oc_sl5: 0.1
+    oc_sl6: 0.1
+    oc_sl7: 0.1
+    ph_sl1: 0.1
+    ph_sl2: 0.1
+    ph_sl3: 0.1
+    ph_sl4: 0.1
+    ph_sl5: 0.1
+    ph_sl6: 0.1
+    ph_sl7: 0.1
+
+grdc:
+  crs: 4326
+  data_type: GeoDataFrame
+  driver: xlsx
+  kwargs:
+    index_col: grdc_no
+  meta:
+    category: observed data
+    notes: GRDC-Station Catalogue, last downloaded 2020-07-16
+    source_license: https://www.bafg.de/GRDC/EN/02_srvcs/21_tmsrs/210_prtl/tou.html;jsessionid=A56D50D4A36D3D8707CBF00CBD71F106.live11291?nn=2862854
+    source_url: https://portal.grdc.bafg.de/applications/public.html?publicuser=PublicUser#dataDownload/StationCatalogue
+  path: hydro/grdc/GRDC_Stations.xlsx
+  rename:
+    area: uparea
+
+era5:
+  alias: era5_daily
+era5_daily:
+  crs: 4326
+  data_type: RasterDataset
+  driver: netcdf
+  kwargs:
+    chunks:
+      latitude: 250
+      longitude: 240
+      time: 30
+    combine: by_coords
+    decode_times: true
+    parallel: true
+  meta:
+    category: meteo
+    notes: Extracted from Copernicus Climate Data Store; resampled by Deltares to daily frequency
+    paper_doi: 10.1002/qj.3803
+    paper_ref: Hersbach et al. (2019)
+    source_license: https://cds.climate.copernicus.eu/cdsapp/#!/terms/licence-to-use-copernicus-products
+    source_url: https://doi.org/10.24381/cds.bd0915c6
+    source_version: ERA5 daily data on pressure levels
+  path: meteo/era5_daily/nc_merged/era5_{year}*_daily.nc
+  rename:
+    d2m: temp_dew
+    msl: press_msl
+    ssrd: kin
+    t2m: temp
+    tisr: kout
+    tmax: temp_max
+    tmin: temp_min
+    tp: precip
+    u10: wind10_u
+    v10: wind10_v
+  unit_add:
+    temp: -273.15
+    temp_dew: -273.15
+    temp_max: -273.15
+    temp_min: -273.15
+  unit_mult:
+    kin: 0.000277778
+    kout: 0.000277778
+    ssr: 0.000277778
+    press_msl: 0.01
+
+era5_orography:
+  crs: 4326
+  data_type: RasterDataset
+  driver: netcdf
+  kwargs:
+    chunks:
+      latitude: 120
+      longitude: 125
+  meta:
+    category: meteo
+    notes: Extracted from Copernicus Climate Data Store
+    paper_doi: 10.1002/qj.3803
+    paper_ref: Hersbach et al. (2019)
+    source_license: https://cds.climate.copernicus.eu/cdsapp/#!/terms/licence-to-use-copernicus-products
+    source_url: https://apps.ecmwf.int/codes/grib/param-db?id=129
+  path: meteo/era5/meta/era5_orography_2018.nc
+  rename:
+    z: elevtn
+  unit_mult:
+    elevtn: 0.10197162129779283
