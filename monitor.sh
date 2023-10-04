@@ -11,7 +11,7 @@ PID=$!
 echo "attaching to PID: " $PID
 
 while ps -p $PID >/dev/null; do
-  sudo iftop -t -s $SAMPLE_RATE_S > $LOG_DIR/$(date --date=now +'%H-%M-%S.%N').log 
+  sudo iftop -t -s $SAMPLE_RATE_S > $LOG_DIR/$(date --date=now +'%Y-%m-%d-%H-%M-%S').log 
 done;
 
 echo "exiting harness"
