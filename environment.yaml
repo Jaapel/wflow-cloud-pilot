@@ -6,4 +6,5 @@ channels:
 dependencies:
   - hydromt
   - hydromt_wflow
+  - s3fs
   

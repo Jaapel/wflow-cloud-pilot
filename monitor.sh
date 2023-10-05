@@ -4,8 +4,10 @@ LOG_DIR="logs/"
 rm -rf $LOG_DIR
 mkdir $LOG_DIR
 SAMPLE_RATE_S=1
+SIZE=$1
+DATA_CATALOG=$2
 
-./run_hydromt.sh large &
+./run_hydromt.sh $SIZE $DATA_CATALOG &
 PID=$!
 
 echo "attaching to PID: " $PID

@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/zsh
 
 set -e
 
@@ -23,7 +23,7 @@ fi
 
 if [ -z "$data_catalog" ]
 then
-    data_catalog=deltares-data-curated
+    data_catalog=deltares-data-curated.yaml
 fi
 
-hydromt build wflow -vv "./wflow_$size" -i wflow-build.ini -r "$region" -d deltares-data-curated.yaml 2>&1 > /dev/null
+hydromt build wflow -vv "./wflow_$size" -i wflow-build.ini -r "$region" -d $data_catalog 2>&1 > /dev/null

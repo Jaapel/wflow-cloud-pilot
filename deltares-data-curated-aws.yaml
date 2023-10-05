@@ -1,6 +1,5 @@
 ---
 meta:
-  root: s3://hydromt-data  # change root mount
   version: 2023.3
 
 merit_hydro:
@@ -9,6 +8,7 @@ merit_hydro_v1.0:
   crs: 4326
   data_type: RasterDataset
   driver: raster
+  filesystem: s3
   kwargs:
     chunks:
       x: 6000
@@ -20,7 +20,7 @@ merit_hydro_v1.0:
     source_license: CC-BY-NC 4.0 or ODbL 1.0
     source_url: http://hydro.iis.u-tokyo.ac.jp/~yamadai/MERIT_Hydro
     source_version: 1.0
-  path: topography/merit_hydro/*.vrt
+  path: s3://hydromt-data/topography/merit_hydro/*.vrt
   rename:
     bas: basins
     dir: flwdir
@@ -37,12 +37,13 @@ merit_hydro_index_v1.0:
   crs: 4326
   data_type: GeoDataFrame
   driver: vector
+  filesystem: s3
   meta:
     category: topography
     paper_doi: 10.5194/hess-25-5287-2021
     paper_ref: Eilander et al. (2021)
     source_license: CC-BY-NC 4.0
-  path: topography/merit_hydro/basin_index.fgb
+  path: s3://hydromt-data/topography/merit_hydro/basin_index.fgb
 
 merit_hydro_ihu:
   alias: merit_hydro_ihu_30sec_v1.0
@@ -50,6 +51,7 @@ merit_hydro_ihu_30sec_v1.0:
   crs: 4326
   data_type: RasterDataset
   driver: raster
+  filesystem: s3
   kwargs:
     chunks:
       x: 6000
@@ -62,7 +64,7 @@ merit_hydro_ihu_30sec_v1.0:
     source_url: https://zenodo.org/record/5166932#.YVbxJ5pByUk
     source_doi: 10.5281/zenodo.5166932
     source_version: 1.0
-  path: topography/merit_hydro_ihu/30sec/*.tif
+  path: s3://hydromt-data/topography/merit_hydro_ihu/30sec/*.tif
   rename:
     30sec_basids: basins
     30sec_flwdir: flwdir
@@ -76,17 +78,19 @@ merit_hydro_ihu_index:
   crs: 4326
   data_type: GeoDataFrame
   driver: vector
+  filesystem: s3
   meta:
     category: topography
     paper_doi: 10.5194/hess-25-5287-2021
     paper_ref: Eilander et al. (2021)
     source_license: CC-BY-NC 4.0
     source_url: https://zenodo.org/record/5166932#.YVbxJ5pByUk
-  path: topography/merit_hydro_ihu/30sec/basins.gpkg
+  path: s3://hydromt-data/topography/merit_hydro_ihu/30sec/basins.gpkg
 
 rivers_lin2019_v1:
   data_type: GeoDataFrame
   driver: vector
+  filesystem: s3
   meta:
     category: hydrography
     paper_doi: 10.5281/zenodo.3552776
@@ -94,7 +98,7 @@ rivers_lin2019_v1:
     source_license: CC-BY-NC 4.0
     source_url: https://zenodo.org/record/3552776#.YVbOrppByUk
     source_version: 1
-  path: hydrography/rivers_lin2019/rivers_ge30m.fgb
+  path: s3://hydromt-data/hydrography/rivers_lin2019/rivers_ge30m.fgb
   rename:
     width_m: rivwth
     Q2: qbankfull
@@ -103,13 +107,14 @@ hydro_reservoirs:
   crs: 4326
   data_type: GeoDataFrame
   driver: vector
+  filesystem: s3
   meta:
     category: surface water
     notes: GRanD.v1.1_HydroLAKES.v10_JRC.2016
     source_author: Alessia Matano
     source_version: 1.0
   nodata: -99
-  path: hydrography/reservoirs/reservoir-db.fgb
+  path: s3://hydromt-data/hydrography/reservoirs/reservoir-db.fgb
   rename:
     Depth_avg: Depth_avg
     Dis_avg: Dis_avg
@@ -134,12 +139,13 @@ hydro_lakes:
   crs: 4326
   data_type: GeoDataFrame
   driver: vector
+  filesystem: s3
   meta:
     category: surface water
     notes: HydroLAKES.v10_extract
     source_author: Arjen Haag
     source_version: 1.0
-  path: hydrography/lakes/lake-db.fgb
+  path: s3://hydromt-data/hydrography/lakes/lake-db.fgb
   rename:
     Depth_avg: Depth_avg
     Dis_avg: Dis_avg
@@ -157,6 +163,7 @@ rgi_v0.6:
   crs: 4326
   data_type: GeoDataFrame
   driver: vector
+  filesystem: s3
   meta:
     category: surface water
     notes: Randolph Glacier Inventory
@@ -165,7 +172,7 @@ rgi_v0.6:
     source_license: CC BY 4.0
     source_url: https://cds.climate.copernicus.eu/cdsapp#!/dataset/insitu-glaciers-extent?tab=overview
     source_version: 6.0
-  path: hydrography/rgi/rgi.fgb
+  path: s3://hydromt-data/hydrography/rgi/rgi.fgb
   rename:
     C3S_ID: C3S_id
     GLIMSID: GLIMS_id
@@ -178,6 +185,7 @@ vito_2015_v2.0.2:
   crs: 4326
   data_type: RasterDataset
   driver: raster
+  filesystem: s3
   kwargs:
     chunks:
       x: 3600
@@ -188,7 +196,7 @@ vito_2015_v2.0.2:
     paper_ref: Buchhorn et al (2020)
     source_url: https://land.copernicus.eu/global/products/lc
     source_version: v2.0.2
-  path: landuse/vito/ProbaV_LC100_epoch2015_global_v2.0.2_discrete-classification_EPSG-4326.tif
+  path: s3://hydromt-data/landuse/vito/ProbaV_LC100_epoch2015_global_v2.0.2_discrete-classification_EPSG-4326.tif
 
 modis_lai:
   alias: modis_mcd15a3h_v006
@@ -196,6 +204,7 @@ modis_mcd15a3h_v006:
   crs: 4326
   data_type: RasterDataset
   driver: raster
+  filesystem: s3
   kwargs:
     chunks:
       x: 3600
@@ -209,7 +218,7 @@ modis_mcd15a3h_v006:
     source_license: https://lpdaac.usgs.gov/data/data-citation-and-policies/
     source_url: https://lpdaac.usgs.gov/products/mcd15a3hv006/
     source_version: MCD15A3H V006
-  path: landuse/modis/MODIS_MCD15A3H_LAI/*.tif
+  path: s3://hydromt-data/landuse/modis/MODIS_MCD15A3H_LAI/*.tif
   unit_mult:
     LAI: 0.1
 
@@ -219,6 +228,7 @@ soilgrids_v1.0:
   crs: 4326
   data_type: RasterDataset
   driver: raster
+  filesystem: s3
   kwargs:
     chunks:
       x: 2400
@@ -234,7 +244,7 @@ soilgrids_v1.0:
     source_license: ODbL
     source_url: https://www.isric.org/explore/soilgrids/faq-soilgrids-2017
     source_version: 2017
-  path: soil/soilgrids_v1.0/*_250m_ll.tif
+  path: s3://hydromt-data/soil/soilgrids_v1.0/*_250m_ll.tif
   rename:
     BLDFIE_M_sl1_250m_ll: bd_sl1
     BLDFIE_M_sl2_250m_ll: bd_sl2
@@ -307,6 +317,7 @@ grdc:
   crs: 4326
   data_type: GeoDataFrame
   driver: xlsx
+  filesystem: s3
   kwargs:
     index_col: grdc_no
   meta:
@@ -314,7 +325,7 @@ grdc:
     notes: GRDC-Station Catalogue, last downloaded 2020-07-16
     source_license: https://www.bafg.de/GRDC/EN/02_srvcs/21_tmsrs/210_prtl/tou.html;jsessionid=A56D50D4A36D3D8707CBF00CBD71F106.live11291?nn=2862854
     source_url: https://portal.grdc.bafg.de/applications/public.html?publicuser=PublicUser#dataDownload/StationCatalogue
-  path: hydro/grdc/GRDC_Stations.xlsx
+  path: s3://hydromt-data/hydro/grdc/GRDC_Stations.xlsx
   rename:
     area: uparea
 
@@ -324,6 +335,7 @@ era5_daily:
   crs: 4326
   data_type: RasterDataset
   driver: netcdf
+  filesystem: s3
   kwargs:
     chunks:
       latitude: 250
@@ -340,7 +352,7 @@ era5_daily:
     source_license: https://cds.climate.copernicus.eu/cdsapp/#!/terms/licence-to-use-copernicus-products
     source_url: https://doi.org/10.24381/cds.bd0915c6
     source_version: ERA5 daily data on pressure levels
-  path: meteo/era5_daily/nc_merged/era5_{year}*_daily.nc
+  path: s3://hydromt-data/meteo/era5_daily/nc_merged/era5_{year}*_daily.nc
   rename:
     d2m: temp_dew
     msl: press_msl
@@ -367,6 +379,7 @@ era5_orography:
   crs: 4326
   data_type: RasterDataset
   driver: netcdf
+  filesystem: s3
   kwargs:
     chunks:
       latitude: 120
@@ -378,7 +391,7 @@ era5_orography:
     paper_ref: Hersbach et al. (2019)
     source_license: https://cds.climate.copernicus.eu/cdsapp/#!/terms/licence-to-use-copernicus-products
     source_url: https://apps.ecmwf.int/codes/grib/param-db?id=129
-  path: meteo/era5/meta/era5_orography_2018.nc
+  path: s3://hydromt-data/meteo/era5/meta/era5_orography_2018.nc
   rename:
     z: elevtn
   unit_mult:
