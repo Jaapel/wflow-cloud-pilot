@@ -3,15 +3,17 @@ import boto3
 import os
 from dotenv import load_dotenv
 from pathlib import Path
+import urllib3
+urllib3.disable_warnings()
 
 
 current_folder = Path(__file__).parent
 top_folder = current_folder.parent
-load_dotenv(top_folder / ".env")
+load_dotenv(top_folder / "minio.env")
 
 
 BUCKET = os.environ['AWS_BUCKET']
-s3 = boto3.client('s3')
+s3 = boto3.client('s3', verify=False)
 
 
 def main(catalog_file_name: Path):
