@@ -1,10 +1,13 @@
 import os
+from itertools import repeat
 from pathlib import Path
+from typing import Tuple
 
 import boto3
 import urllib3
 import yaml
 from dotenv import load_dotenv
+from pathos.multiprocessing import ProcessPool
 
 urllib3.disable_warnings()
 
@@ -18,7 +21,7 @@ BUCKET = os.environ["AWS_BUCKET"]
 s3 = boto3.client("s3", verify=False)
 
 
-def main(catalog_file_name: Path):
+def main(catalog_file_name: Path, multi_process: bool = False):
     catalog: dict
     try:
         with open(catalog_file_name, "r") as yaml_file:
@@ -64,15 +67,23 @@ def main(catalog_file_name: Path):
                 )
             copy_list.append((file, relative_path.as_posix()))
     print(f"About to copy {len(copy_list)} files")
-    # print(copy_list)
-    for idx, copy_item in enumerate(copy_list):
-        copy_file_to_bucket(
-            file_path=copy_item[0],
-            s3_object_key=copy_item[1],
-            bucket_name=BUCKET,
-            total_num_items=len(copy_list),
-            item_nr=idx,
-        )
+
+    def copy_file_helper(copy_tuple: Tuple[Path, str], bucket: str):
+        copy_file_to_bucket(copy_tuple[0], copy_tuple[1], bucket, multiprocess=True)
+
+    if multi_process:
+        with ProcessPool(nodes=8) as pool:
+            pool.map(copy_file_helper, copy_list, repeat(BUCKET))
+            pool.join()
+    else:
+        for idx, copy_item in enumerate(copy_list):
+            copy_file_to_bucket(
+                file_path=copy_item[0],
+                s3_object_key=copy_item[1],
+                bucket_name=BUCKET,
+                total_num_items=len(copy_list),
+                item_nr=idx,
+            )
 
 
 def progressbar_pprint(
@@ -94,7 +105,12 @@ def progressbar_pprint(
 
 
 def copy_file_to_bucket(
-    file_path, s3_object_key, bucket_name, total_num_items: int, item_nr: int
+    file_path,
+    s3_object_key,
+    bucket_name,
+    total_num_items: int | None = None,
+    item_nr: int | None = None,
+    multiprocess: bool = False,
 ):
     def upload_callback(size):
         nonlocal uploaded
@@ -103,7 +119,7 @@ def copy_file_to_bucket(
             return
         uploaded += size
         new_uploaded_percentage = int(uploaded / total_size * 100)
-        if new_uploaded_percentage != uploaded_percentage:
+        if not multiprocess and new_uploaded_percentage != uploaded_percentage:
             progressbar_pprint(
                 new_uploaded_percentage,
                 item_nr=item_nr,
@@ -116,15 +132,29 @@ def copy_file_to_bucket(
     uploaded = 0
     uploaded_percentage = 0
     if check_file_exists(s3_object_key=s3_object_key, bucket_name=bucket_name):
-        print(f"Skipping '{file_path}' as it is already uploaded")
+        if not multiprocess:
+            print(f"Skipping '{file_path}' as it is already uploaded")
         return
     try:
         # Upload the file to S3
-        print(f"Starting upload of {file_path}, size = {total_size}")
+        if not multiprocess:
+            print(f"Starting upload of {file_path}, size = {total_size}")
         s3.upload_file(file_path, bucket_name, s3_object_key, Callback=upload_callback)
-        print(f"\nSuccessfully uploaded {file_path} to {bucket_name}/{s3_object_key}")
+        if not multiprocess:
+            print(
+                f"\nSuccessfully uploaded {file_path} to {bucket_name}/{s3_object_key}"
+            )
     except Exception as e:
-        print(f"\nError: {e}")
+        if not multiprocess:
+            print(f"Error uploading {file_path} to {bucket_name}/{s3_object_key}")
+            print(f"Error: {e}")
+        else:
+            pid = os.getpid()
+            with open(f"error-{pid}.log", "a") as log_file:
+                log_file.write(
+                    f"Error uploading {file_path} to {bucket_name}/{s3_object_key}"
+                )
+                log_file.write(f"Error: {e}")
 
 
 def check_file_exists(s3_object_key, bucket_name) -> bool:
@@ -133,4 +163,5 @@ def check_file_exists(s3_object_key, bucket_name) -> bool:
 
 
 if __name__ == "__main__":
-    main(top_folder / "deltares-data-curated.yaml")
+    # main(top_folder / "deltares-data-curated.yaml")
+    main(top_folder / "deltares-data-curated.yaml", True)
