@@ -167,4 +167,4 @@ def check_file_exists(s3_object_key, bucket_name) -> bool:
 
 if __name__ == "__main__":
     # main(top_folder / "deltares-data-curated.yaml")
-    main(top_folder / "deltares-data-curated.yaml", True)
+    main(top_folder / "data_catalogs" / "deltares-data-curated.yaml", True)

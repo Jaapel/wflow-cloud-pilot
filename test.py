@@ -1,13 +1,13 @@
-import rioxarray
-import xarray as xr
+from hydromt.gis_utils import parse_geom_bbox_buffer
+from hydromt.io import open_vector
+from upath.implementations.cloud import S3Path
 
-fn = "s3://hydromt-data/topography/merit_hydro/elv.vrt"
-kwargs = {
-    "masked": False,
-    "default_name": "data",
-    "engine": "rasterio",
-    "mask_and_scale": False,
-    "chunks": {"x": 6000, "y": 6000},
-}
-da = xr.open_dataarray(fn, **kwargs)
-da
+path = S3Path(
+    "s3://hydromt-data/topography/merit_hydro/basin_index.fgb",
+)
+crs = 4326
+bbox = [9.566, 0.3476, 9.766, 0.5476]
+geom = parse_geom_bbox_buffer(geom=None, bbox=bbox, buffer=0)
+
+if __name__ == "__main__":
+    open_vector(path, bbox=bbox, geom=geom, crs=crs)
