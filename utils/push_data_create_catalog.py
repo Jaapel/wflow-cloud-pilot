@@ -73,8 +73,11 @@ def main(catalog_file_name: Path, multi_process: bool = False):
 
     if multi_process:
         with ProcessPool(nodes=8) as pool:
-            pool.map(copy_file_helper, copy_list, repeat(BUCKET))
-            pool.join()
+            try:
+                pool.map(copy_file_helper, copy_list, repeat(BUCKET))
+            finally:
+                pool.close()
+                pool.join()
     else:
         for idx, copy_item in enumerate(copy_list):
             copy_file_to_bucket(
@@ -150,7 +153,7 @@ def copy_file_to_bucket(
             print(f"Error: {e}")
         else:
             pid = os.getpid()
-            with open(f"error-{pid}.log", "a") as log_file:
+            with open(top_folder / logs / f"error-{pid}.log", "a") as log_file:
                 log_file.write(
                     f"Error uploading {file_path} to {bucket_name}/{s3_object_key}"
                 )
