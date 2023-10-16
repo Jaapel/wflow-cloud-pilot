@@ -10,10 +10,17 @@ geom = parse_geom_bbox_buffer(geom=None, bbox=bbox, buffer=0)
 geopandas.options.io_engine = "pyogrio"
 
 if __name__ == "__main__":
+    # remote
     df = read_dataframe(
         "s3://hydromt-data/topography/merit_hydro/basin_index.fgb",
         bbox=bbox,
         geom=geom,
+        crs=crs,
+    )
+    # local
+    df_local = read_dataframe(
+        "basin_index.fgb",
+        mask=geom.geometry.values[0],
         crs=crs,
     )
 

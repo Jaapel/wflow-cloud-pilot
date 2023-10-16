@@ -16,3 +16,4 @@ dependencies:
   - pip:
     - python-dotenv
     - git+https://github.com/Deltares/hydromt.git
+    - awscli
