@@ -23,7 +23,7 @@ fi
 
 if [ -z "$data_catalog" ]
 then
-    data_catalog=deltares-data-curated.yaml
+    data_catalog=data_catalogs/deltares-data-curated.yaml
 fi
 
 hydromt build wflow -vv "./wflow_$size" -i wflow-build.ini -r "$region" -d $data_catalog 2>&1 > /dev/null

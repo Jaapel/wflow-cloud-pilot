@@ -3,9 +3,13 @@ import logging
 from os.path import join
 
 import numpy as np
+from boto3 import Session
 from hydromt import log
 from hydromt.cli import cli_utils
 from hydromt.models import MODELS
+
+# s3_client = Session().client("s3")
+# buckets = s3_client.list_buckets()
 
 model = "wflow"
 opt = None

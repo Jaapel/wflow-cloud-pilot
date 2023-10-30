@@ -9,6 +9,8 @@ merit_hydro_v1.0:
   data_type: RasterDataset
   driver: raster
   filesystem: s3
+  storage_options:
+    anon: false
   kwargs:
     chunks:
       x: 6000
@@ -38,6 +40,8 @@ merit_hydro_index_v1.0:
   data_type: GeoDataFrame
   driver: vector
   filesystem: s3
+  storage_options:
+    anon: false
   meta:
     category: topography
     paper_doi: 10.5194/hess-25-5287-2021
@@ -52,6 +56,8 @@ merit_hydro_ihu_30sec_v1.0:
   data_type: RasterDataset
   driver: raster
   filesystem: s3
+  storage_options:
+    anon: false
   kwargs:
     chunks:
       x: 6000
@@ -79,6 +85,8 @@ merit_hydro_ihu_index:
   data_type: GeoDataFrame
   driver: vector
   filesystem: s3
+  storage_options:
+    anon: false
   meta:
     category: topography
     paper_doi: 10.5194/hess-25-5287-2021
@@ -91,6 +99,8 @@ rivers_lin2019_v1:
   data_type: GeoDataFrame
   driver: vector
   filesystem: s3
+  storage_options:
+    anon: false
   meta:
     category: hydrography
     paper_doi: 10.5281/zenodo.3552776
@@ -108,6 +118,8 @@ hydro_reservoirs:
   data_type: GeoDataFrame
   driver: vector
   filesystem: s3
+  storage_options:
+    anon: false
   meta:
     category: surface water
     notes: GRanD.v1.1_HydroLAKES.v10_JRC.2016
@@ -140,6 +152,8 @@ hydro_lakes:
   data_type: GeoDataFrame
   driver: vector
   filesystem: s3
+  storage_options:
+    anon: false
   meta:
     category: surface water
     notes: HydroLAKES.v10_extract
@@ -164,6 +178,8 @@ rgi_v0.6:
   data_type: GeoDataFrame
   driver: vector
   filesystem: s3
+  storage_options:
+    anon: false
   meta:
     category: surface water
     notes: Randolph Glacier Inventory
@@ -186,6 +202,8 @@ vito_2015_v2.0.2:
   data_type: RasterDataset
   driver: raster
   filesystem: s3
+  storage_options:
+    anon: false
   kwargs:
     chunks:
       x: 3600
@@ -205,6 +223,8 @@ modis_mcd15a3h_v006:
   data_type: RasterDataset
   driver: raster
   filesystem: s3
+  storage_options:
+    anon: false
   kwargs:
     chunks:
       x: 3600
@@ -229,6 +249,8 @@ soilgrids_v1.0:
   data_type: RasterDataset
   driver: raster
   filesystem: s3
+  storage_options:
+    anon: false
   kwargs:
     chunks:
       x: 2400
@@ -318,6 +340,8 @@ grdc:
   data_type: GeoDataFrame
   driver: xlsx
   filesystem: s3
+  storage_options:
+    anon: false
   kwargs:
     index_col: grdc_no
   meta:
@@ -336,6 +360,8 @@ era5_daily:
   data_type: RasterDataset
   driver: netcdf
   filesystem: s3
+  storage_options:
+    anon: false
   kwargs:
     chunks:
       latitude: 250
@@ -380,6 +406,8 @@ era5_orography:
   data_type: RasterDataset
   driver: netcdf
   filesystem: s3
+  storage_options:
+    anon: false
   kwargs:
     chunks:
       latitude: 120
