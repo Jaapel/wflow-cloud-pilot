@@ -46,7 +46,11 @@ def main(catalog_file_name: Path, multi_process: bool = False):
         if "{year}" in source_path.__str__():
             source_path = Path(source_path.__str__().replace("{year}", "2010"))
 
-        all_files = p_drive_root.glob(source_path.__str__())
+        if source_path.suffix == ".zarr":
+            # zarr files do not work with glob
+            all_files = p_drive_root.glob(f"{source_path}/**/*")
+        else:
+            all_files = p_drive_root.glob(source_path.__str__())
 
         for file in all_files:
             relative_path = file.relative_to(p_drive_root)
