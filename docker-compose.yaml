@@ -1,0 +1,19 @@
+services:
+  cloudpilot:
+    image: cp:latest
+    restart: always
+    environment:
+      AWS_ACCESS_KEY_ID: $(AWS_ACCESS_KEY_ID)
+      AWS_SECRET_ACCESS_KEY: $(AWS_SECRET_ACCESS_KEY)
+      AWS_SESSION_TOKEN: $(AWS_SESSION_TOKEN)
+      AWS_BUCKET: $(AWS_BUCKET)
+      AWS_REGION: $(AWS_REGION)
+    volumes:
+      - data:/mnt/p/wflow_global/hydromt
+volumes:
+  data:
+    driver: local
+    driver_opts:
+      o: addr=storage014.directory.intra,nolock,ro,soft,nfsvers=4
+      type: nfs
+      device: :/tank/projects/wflow_global/hydromt

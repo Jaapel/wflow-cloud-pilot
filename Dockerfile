@@ -1,16 +1,15 @@
 FROM mambaorg/micromamba
 
-
-WORKDIR /tmp
-
-ADD environment.yaml environment.yaml
-
 USER root
 
 RUN apt-get update && apt-get install -y git && apt-get clean y
 
-RUN micromamba env create -f environment.yaml
-
 USER mambauser
+
+COPY --chown=$MAMBA_USER:$MAMBA_USER environment.yaml /tmp/env.yaml
+RUN micromamba install -n base --yes --file /tmp/env.yaml \
+ && micromamba clean --all --yes
+
+ARG MAMBA_DOCKERFILE_ACTIVATE=1  # (otherwise python will not be found)
 
 ADD . /tmp 
