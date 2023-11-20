@@ -2,7 +2,7 @@ FROM mambaorg/micromamba
 
 USER root
 
-RUN apt-get update && apt-get install -y git && apt-get clean y
+RUN apt-get update && apt-get install -y git && apt-get clean -y
 
 USER mambauser
 

@@ -11,9 +11,11 @@ dependencies:
   - hydromt
   - hydromt_wflow=0.3.0
   - s3fs
+  - gcsfs
   - boto3
   - pathos
   - pip
   - pip:
     - python-dotenv
     - git+https://github.com/Deltares/hydromt.git
+    - git+https://github.com/Deltares/hydromt_wflow.git@implement_nodata
