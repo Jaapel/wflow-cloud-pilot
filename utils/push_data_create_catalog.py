@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Tuple
 
 import boto3
+import botocore
 import urllib3
 import yaml
 from dotenv import load_dotenv
@@ -38,7 +39,7 @@ def main(catalog_file_name: Path, multi_process: bool = False):
 
     for item in catalog.values():
         # only look at items with a path
-        if not "path" in item:
+        if "path" not in item:
             continue
 
         source_path = Path(item["path"])
@@ -157,7 +158,9 @@ def copy_file_to_bucket(
             print(f"Error: {e}")
         else:
             pid = os.getpid()
-            with open(top_folder / "logs" / f"error-{pid}.log", "a") as log_file:
+            log_path = top_folder / "logs" / f"error-{pid}.log"
+            log_path.mkdir(exist_ok=True)
+            with open(log_path, "a") as log_file:
                 log_file.write(
                     f"Error uploading {file_path} to {bucket_name}/{s3_object_key}"
                 )
@@ -165,8 +168,20 @@ def copy_file_to_bucket(
 
 
 def check_file_exists(s3_object_key, bucket_name) -> bool:
-    res = s3.list_objects_v2(Bucket=bucket_name, Prefix=s3_object_key, MaxKeys=1)
-    return "Contents" in res
+    res = s3.list_objects_v2(
+        Bucket=bucket_name, Prefix=s3_object_key, MaxKeys=1
+    )  # quick check for contents
+    if "Contents" in res:
+        try:
+            s3.head_object(Key=s3_object_key, Bucket=bucket_name)
+            return True
+        except botocore.exceptions.ClientError as e:
+            if (
+                int(e.response["Error"]["Code"]) == 404
+                and e.response["Error"]["Message"] == "Not Found"
+            ):
+                return False
+    return False
 
 
 if __name__ == "__main__":
