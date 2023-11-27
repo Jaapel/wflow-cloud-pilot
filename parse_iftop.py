@@ -3,8 +3,8 @@ from pathlib import Path
 from re import match
 from typing import Any, Dict, List
 
+import click
 import pandas as pd
-from dateutil.parser import parse
 
 
 def parse_single_iftop_log(filepath: Path):
@@ -66,11 +66,17 @@ def parse_directory(dir: str) -> pd.DataFrame:
 
     df = pd.DataFrame(parsed_logs)
     df["cumulative_parsed"] = df["cumulative"].apply(human_readable_to_bytes)
-    df["t_parsed"] = pd.to_datetime(df["t"], format="%H-%M-%S.%f")
+    df["t_parsed"] = pd.to_datetime(df["t"], format="%Y-%m-%d-%H-%M-%S")
     return df
 
 
+@click.command()
+@click.argument("outfile", default="network_usage.csv")
+@click.argument("indir", default="logs")
+def main(indir: str, outfile: str):
+    df = parse_directory(indir)
+    df.to_csv(outfile)
+
+
 if __name__ == "__main__":
-    logs_dir = "logs"
-    df = parse_directory(logs_dir)
-    df.to_csv("network_usage.csv")
+    main()
