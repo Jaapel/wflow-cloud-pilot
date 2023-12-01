@@ -5,9 +5,9 @@ from typing import Tuple
 
 import boto3
 import botocore
+import click
 import urllib3
 import yaml
-from dotenv import load_dotenv
 from pathos.multiprocessing import ProcessPool
 
 urllib3.disable_warnings()
@@ -15,14 +15,15 @@ urllib3.disable_warnings()
 
 current_folder = Path(__file__).parent
 top_folder = current_folder.parent
-load_dotenv(top_folder / "minio.env")
-
 
 BUCKET = os.environ["AWS_BUCKET"]
 s3 = boto3.client("s3", verify=False)
 
 
-def main(catalog_file_name: Path, multi_process: bool = False):
+@click.command()
+@click.argument("catalog_file_name")
+@click.argument("multi_process", default=False)
+def main(catalog_file_name: Path, multi_process: bool):
     catalog: dict
     try:
         with open(catalog_file_name, "r") as yaml_file:
@@ -55,8 +56,6 @@ def main(catalog_file_name: Path, multi_process: bool = False):
 
         for file in all_files:
             relative_path = file.relative_to(p_drive_root)
-            # destination = Path(f"s3://{BUCKET}/{relative_path.as_posix()}")
-            # print(f"Push file {file} to {destination}")
             if relative_path.suffix == ".vrt":
                 # if vrt present, also copy refernced files based on naming convention
                 copy_list += list(
@@ -185,5 +184,4 @@ def check_file_exists(s3_object_key, bucket_name) -> bool:
 
 
 if __name__ == "__main__":
-    # main(top_folder / "deltares-data-curated.yaml")
-    main(top_folder / "data_catalogs" / "deltares-data-curated.yaml", True)
+    main()
