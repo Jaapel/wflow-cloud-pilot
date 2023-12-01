@@ -157,8 +157,9 @@ def copy_file_to_bucket(
             print(f"Error: {e}")
         else:
             pid = os.getpid()
-            log_path = top_folder / "logs" / f"error-{pid}.log"
-            log_path.mkdir(exist_ok=True)
+            log_folder = top_folder / "logs"
+            log_path.mkdir(exist_ok=True, parents=True)
+            log_path = log_folder / f"error-{pid}.log"
             with open(log_path, "a") as log_file:
                 log_file.write(
                     f"Error uploading {file_path} to {bucket_name}/{s3_object_key}"

@@ -17,3 +17,9 @@ volumes:
       o: addr=storage014.directory.intra,nolock,ro,soft,nfsvers=4
       type: nfs
       device: :/tank/projects/wflow_global/hydromt
+  logs:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: "${PWD}/logs"
