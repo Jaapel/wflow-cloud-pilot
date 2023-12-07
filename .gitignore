@@ -168,3 +168,4 @@ cython_debug/
 wflow_*/*
 *.log
 logs/
+*.zarr/**/*

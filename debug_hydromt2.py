@@ -1,12 +1,14 @@
 import geopandas as gpd
-from hydromt.data_adapter import RasterDatasetAdapter
 from hydromt import DataCatalog
 from shapely import box
 
 # fn = "s3://hydromt-data/hydrography/reservoirs/reservoir-db.fgb"
-fn = "s3://hydromt-data/meto/era5_daily.zarr"
-geom = gpd.GeoSeries(box(9.654999999999973, 0.3475000000002808, 9.861666666666451, 0.4866666666668209), crs=4326)
-data_catalog_path = "data_catalogs/deltares-data-curated-aws.yaml"
+fn = "s3://hydro-mt-data/meto/era5_daily.zarr"
+geom = gpd.GeoSeries(
+    box(9.654999999999973, 0.3475000000002808, 9.861666666666451, 0.4866666666668209),
+    crs=4326,
+)
+data_catalog_path = "data_catalogs/deltares-data-curated-minio.yaml"
 starttime = "2010-01-01T00:00:00"
 endtime = "2010-03-31T00:00:00"
 # rename = {
